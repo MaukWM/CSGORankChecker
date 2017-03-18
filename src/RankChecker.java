@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 
 /**
+ * Simple program to check the range of CS:GO ranks
  * Created by Mauk on 3/11/2017.
  */
 public class RankChecker extends JFrame{
@@ -19,11 +21,11 @@ public class RankChecker extends JFrame{
         });
     }
 
-    public RankChecker() {
+    private RankChecker() {
         initUI();
     }
 
-    public String[] getAllRankCodes() {
+    private String[] getAllRankCodes() {
 
         rankCodes[0] = ("1-Silver_1");
         rankCodes[1] = ("2-Silver_2");
@@ -47,7 +49,37 @@ public class RankChecker extends JFrame{
         return rankCodes;
     }
 
-    public void placeRankButtons(String[] imageCodes) {
+//    private void createMenuBar() {
+//
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        JMenuBar menuBar = new JMenuBar();
+//        menuBar.setPreferredSize(new Dimension(355,20));
+//
+//        JMenu file = new JMenu("File");
+//
+//        JMenuItem eMenuItem = new JMenuItem("Exit");
+//        eMenuItem.setToolTipText("Exit application");
+//        eMenuItem.addActionListener((ActionEvent event) -> {
+//            System.exit(0);
+//        });
+//
+//        file.add(eMenuItem);
+//
+//        JMenu help = new JMenu("Help");
+//
+//
+//        menuBar.add(file);
+//
+//        setJMenuBar(menuBar);
+//
+//    }
+
+    private void placeRankButtons(String[] imageCodes) {
         for (int i=0; i<imageCodes.length; i++) {
             JButton rankButton = new JButton();
             rankButton.setFocusable(false);
@@ -66,13 +98,15 @@ public class RankChecker extends JFrame{
         createLayout(rankButtons);
     }
 
-    public void processCode(String[] code) {
+    private void processCode(String[] code) {
         int codeNum = Integer.parseInt(code[0]);
         int minRank = codeNum-6;
         int maxRank = codeNum+6;
 
         for (int i = 0; i < 18; i++) {
-            if (i > minRank-1 && i < maxRank-1) {
+            if (i == codeNum-1) {
+                rankButtons[i].setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+            } else if (i > minRank-1 && i < maxRank-1) {
                 rankButtons[i].setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
             } else {
                 rankButtons[i].setBorder(BorderFactory.createLineBorder(Color.RED, 2));
@@ -82,6 +116,9 @@ public class RankChecker extends JFrame{
     }
 
     private void initUI() {
+
+//        createMenuBar();
+
         ImageIcon csgoIcon = new ImageIcon(getClass().getClassLoader().getResource("CSGOicon.png"));
         setIconImage(csgoIcon.getImage());
 
@@ -95,7 +132,7 @@ public class RankChecker extends JFrame{
         setResizable(false);
     }
 
-    public void createLayout(JButton[] rankButtons) {
+    private void createLayout(JButton[] rankButtons) {
         final ImageIcon backgroundImage = resizeBackgroundImage(new ImageIcon(getClass().getClassLoader().getResource("background-image.jpg")));
         JFrame frame = new JFrame();
         frame.setContentPane(new JPanel() {
@@ -139,6 +176,7 @@ public class RankChecker extends JFrame{
                         .addComponent(rankButtons[16])
                         .addComponent(rankButtons[17]))
         );
+
 
         gl.setHorizontalGroup(gl.createSequentialGroup()
                         .addGroup(gl.createParallelGroup()
